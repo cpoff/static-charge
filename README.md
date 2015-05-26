@@ -1,2 +1,2 @@
 # static-charge
-Simple static site generator. Yes.
+Simple static site generator.

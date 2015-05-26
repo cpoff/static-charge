@@ -1,23 +1,29 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var marked = require('marked');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+var postsDir = __dirname + '/../posts/';
+fs.readdir(postsDir, function(error, directoryContents) {
+  if (error) {
+    throw new Error(error);
+  }
 
-fs.readdir(__dirname + '/../posts', function(error, directoryContents) {
-	if (error) {
-		throw new Error(error);
-	}
+  var posts = directoryContents.map(function(filename) {
+    var postName = filename.replace('.md', '');
+    var contents = fs.readFileSync(postsDir + filename, {encoding: 'utf-8'});
+    return {postName: postName, contents: marked(contents)};
+  });
 
-	directoryContents.forEach(function(postFileName) {
-		var postName = postFileName.replace('.jade', '');
-		router.get('/' + postName, function(request, response) {
-			response.render('../posts/' + postFileName, {});
-		});
-	});
+  router.get('/', function(request, response) {
+    response.render('index', {posts: posts, title: 'all posts'} )
+  });
+
+  posts.forEach(function(post) {
+    router.get('/' + post.postName, function(request, response) {
+      response.render('post', {postContents: post.contents});
+    });
+  });
 });
 
 module.exports = router;

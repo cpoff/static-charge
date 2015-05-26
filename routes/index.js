@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-fs.readdir(__dirname + '/../posts', function(error, directoryContents)
+fs.readdir(__dirname + '/../posts', function(error, directoryContents) {
 	if (error) {
 		throw new Error(error);
 	}

@@ -4,7 +4,7 @@ var fs = require('fs');
 var marked = require('marked');
 
 
-//create variable for path to posts
+//create variable for path to posts directory
 var postsDir = __dirname + "/../posts/";
 
 //read contents of posts directory

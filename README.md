@@ -1,2 +1,2 @@
 # static-charge
-Simple static site generator.
+Simple static site generator
